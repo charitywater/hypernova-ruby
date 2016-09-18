@@ -14,6 +14,8 @@ describe Hypernova::BlankRenderer do
     end
 
     it "renders blank html" do
+      allow(SecureRandom).to receive(:uuid).and_return("uuid")
+
       html = described_class.new(job).render
       expect(html).to eq(blank_html(job))
     end
@@ -37,11 +39,12 @@ describe Hypernova::BlankRenderer do
     data = job[:data]
     name = job[:name]
     key = name.gsub(/\W/, "")
+    id = "uuid"
     json_data = described_class.new(job).send(:encode)
 
     <<-HTML
-      <div data-hypernova-key="#{key}"></div>
-      <script type="application/json" data-hypernova-key="#{key}"><!--#{json_data}--></script>
+      <div data-hypernova-key="#{key}" data-hypernova-id="#{id}"></div>
+      <script type="application/json" data-hypernova-key="#{key}" data-hypernova-id="#{id}"><!--#{json_data}--></script>
     HTML
   end
 end
