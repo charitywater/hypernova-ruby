@@ -33,6 +33,6 @@ class Hypernova::BlankRenderer
   end
 
   def id
-    SecureRandom.uuid
+    @id ||= SecureRandom.uuid
   end
 end

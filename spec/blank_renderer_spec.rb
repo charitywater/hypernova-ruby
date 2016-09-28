@@ -20,6 +20,15 @@ describe Hypernova::BlankRenderer do
       expect(html).to eq(blank_html(job))
     end
 
+    it "uses the same id for the div and the script tag" do
+      blank_renderer = described_class.new(job)
+      html = blank_renderer.render
+      id = blank_renderer.send(:id)
+
+      expect(html).to match(/<div.*data-hypernova-id="#{id}"/)
+      expect(html).to match(/<script.*data-hypernova-id="#{id}"/)
+    end
+
     it "encodes data correctly" do
       str = described_class.new({
         data: {
